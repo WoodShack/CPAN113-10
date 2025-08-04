@@ -42,10 +42,15 @@ form.addEventListener("submit", function(event) {
 
     const formData = new FormData(this);
     const type = formData.get("type");
+    const id = formData.get("id");
     const title = formData.get("title");
     const body = formData.get("body");
     
-    sendPost(title,body);
+    if(type === "POST"){
+        sendPost(title,body);
+    } else if(type === "PUT"){
+        sendPut(id,title,body);
+    }
 });
 
 //Functions
@@ -84,4 +89,30 @@ function sendPost(title,body){
         populateDataDiv(data);
     })
     .catch(error => showError('Error fetching data'));
+}
+
+function sendPut(id,title,body){
+    const url = "https://jsonplaceholder.typicode.com/posts/"+id;
+    const xhr = new XMLHttpRequest();
+    const data = {
+        userId: 1,
+        id: id,
+        title: title,
+        body: body
+    };
+
+    xhr.open('PUT', url, true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const data = JSON.parse(xhr.responseText);
+                populateDataDiv(data);
+            } else {
+                showError('Error fetching data: '+xhr.statusText);
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify(data));
 }
