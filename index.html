@@ -27,13 +27,18 @@
 
     <!-- Input form -->
     <form id="form">
-        <input type="radio" id="post" name="type" value="POST">
+        <input type="radio" id="post" name="type" value="POST" checked>
         <label for="post">POST</label><br>
         <input type="radio" id="put" name="type" value="PUT">
         <label for="put">PUT</label><br>
-        <textarea name="textarea" rows="4" cols="50">
-        </textarea>
+
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+
+        <label for="body">Body:</label><br>
+        <textarea id="body" name="body" rows="4" cols="50"></textarea>
         <br>
+
         <input type="submit">
     </form>
     
