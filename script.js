@@ -9,6 +9,7 @@ const ERROR_TYPES = {
 
 let fetchBtn = document.getElementById("fetch-btn");
 let xhrBtn = document.getElementById("xhr-btn");
+let postsBtn = document.getElementById("posts-btn");
 let dataDiv = document.getElementById("data");
 let errorDiv = document.getElementById("error");
 let form = document.getElementById("form");
@@ -45,6 +46,24 @@ xhrBtn.addEventListener("click", function() {
         }
     };
     xhr.send();
+});
+
+postsBtn.addEventListener("click", function() {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(response => {
+            if (!response.ok) {
+                showError(ERROR_TYPES.FETCH_RESPONSE,"Network response was not ok");
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            dataDiv.innerHTML = "";
+            for (const key in data) {
+                populateDataDiv(data[key],false);
+            }
+        })
+        .catch(error => showError(ERROR_TYPES.FETCH_ERROR,'Error fetching data'));
 });
 
 form.addEventListener("submit", function(event) {
@@ -105,9 +124,13 @@ function clearError(){
     errorDiv.innerHTML = "";
 }
 
-function populateDataDiv(object){
+function populateDataDiv(object, clear = true){
     clearError();
-    dataDiv.innerHTML = "";
+
+    if(clear){
+        dataDiv.innerHTML = "";
+    }
+
     for (const key in object) {
         if (object.hasOwnProperty(key)) {
             dataDiv.innerHTML += `<p><strong>${key}:</strong> ${object[key]}</p>`;
