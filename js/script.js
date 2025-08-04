@@ -88,6 +88,13 @@ form.addEventListener("submit", function(event) {
     if(type === "POST"){
         sendPost(title,body);
     } else if(type === "PUT"){
+
+        //Check that ID is not empty
+        if(id.trim() === "") {
+            showError(ERROR_TYPES.INVALID_INPUT,'ID is empty');
+            return;
+        }
+
         sendPut(id,title,body);
     }
 });
