@@ -94,6 +94,7 @@ form.addEventListener("submit", function(event) {
 
 //Functions
 function showError(errorType, errorMessage){
+    window.scrollTo(0, 0);
     let border = "";
     switch (errorType) {
         case ERROR_TYPES.FETCH_ERROR:
@@ -116,7 +117,7 @@ function showError(errorType, errorMessage){
     }
 
     errorDiv.style.border = border;
-    errorDiv.innerHTML = errorMessage;
+    errorDiv.innerHTML = "Error: "+errorMessage;
 }
 
 function clearError(){

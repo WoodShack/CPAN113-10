@@ -4,47 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab 10 | Scott Woodhouse</title>
-    <link href="style.css" rel="stylesheet">
-    <script defer src="script.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script defer src="js/bootstrap.bundle.min.js"></script>
+    <script defer src="js/script.js"></script>
 </head>
 <body>
 
-    <!-- Buttons -->
-    <button id="fetch-btn" type="button">Fetch Data with fetch()</button>
-    <button id="xhr-btn" type="button">Fetch Data with XHR</button>
-    <button id="posts-btn" type="button">Get all posts</button>
-
     <!-- Error -->
-    <div id="error">
+    <div id="error" class="alert" role="alert">
 
     </div>
     <br>
+
+    <!-- Buttons -->
+     <div id="button-card" class="card">
+        <div class="card-header">
+            Buttons
+        </div>
+        <div class="card-body">
+            <button id="fetch-btn" class="btn btn-primary" type="button">Fetch Data with fetch()</button>
+            <button id="xhr-btn" class="btn btn-primary" type="button">Fetch Data with XHR</button>
+            <button id="posts-btn" class="btn btn-primary" type="button">Get all posts</button>
+        </div>
+    </div>
 
     <!-- Fetched data -->
-    <div id="data">
-
+    <div id="data-card" class="card">
+        <div class="card-header">
+            Data
+        </div>
+        <div id="data" class="card-body">
+        </div>
     </div>
-    <br>
 
     <!-- Input form -->
-    <form id="form">
-        <input type="radio" id="post" name="type" value="POST" checked>
-        <label for="post">POST</label><br>
-        <input type="radio" id="put" name="type" value="PUT">
-        <label for="put">PUT</label><br>
+     <div id="form-card" class="card">
+        <div class="card-header">
+            Form
+        </div>
+        <div class="card-body">
+            <form id="form">
+                <input type="radio" id="post" name="type" value="POST" checked>
+                <label for="post">POST</label><br>
+                <input type="radio" id="put" name="type" value="PUT">
+                <label for="put">PUT</label><br>
+                <br>
 
-        <label for="id">ID (1-10):</label><br>
-        <input type="number" id="id" name="id" min="1" max="10"><br>
+                <label for="id">ID (1-10):</label><br>
+                <input type="number" id="id" name="id" min="1" max="10"><br>
 
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title"><br>
+                <label for="title">Title:</label><br>
+                <input type="text" id="title" name="title"><br>
 
-        <label for="body">Body:</label><br>
-        <textarea id="body" name="body" rows="4" cols="50"></textarea>
-        <br>
+                <label for="body">Body:</label><br>
+                <textarea id="body" name="body" rows="4" cols="50"></textarea>
+                <br>
 
-        <input type="submit">
-    </form>
+                <input class="btn btn-secondary" type="submit">
+            </form>
+        </div>
+    </div>
     
 </body>
 </html>
