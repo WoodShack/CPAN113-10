@@ -1,4 +1,12 @@
 //Variables
+const ERROR_TYPES = {
+  FETCH_ERROR: "FETCH_ERROR",
+  FETCH_RESPONSE: "FETCH_RESPONSE",
+  XHR_STATE: "XHR_STATE",
+  XHR_STATUS: "XHR_STATUS",
+  INVALID_INPUT: "INVALID_INPUT"
+};
+
 let fetchBtn = document.getElementById("fetch-btn");
 let xhrBtn = document.getElementById("xhr-btn");
 let dataDiv = document.getElementById("data");
@@ -10,7 +18,7 @@ fetchBtn.addEventListener("click", function() {
     fetch('https://jsonplaceholder.typicode.com/posts/1')
         .then(response => {
             if (!response.ok) {
-                showError("Network response was not ok");
+                showError(ERROR_TYPES.FETCH_RESPONSE,"Network response was not ok");
                 throw new Error('Network response was not ok');
             }
             return response.json();
@@ -18,7 +26,7 @@ fetchBtn.addEventListener("click", function() {
         .then(data => {
             populateDataDiv(data);
         })
-        .catch(error => showError('Error fetching data'));
+        .catch(error => showError(ERROR_TYPES.FETCH_ERROR,'Error fetching data'));
 });
 
 xhrBtn.addEventListener("click", function() {
@@ -30,8 +38,10 @@ xhrBtn.addEventListener("click", function() {
                 const data = JSON.parse(xhr.responseText);
                 populateDataDiv(data);
             } else {
-                showError('Error fetching data: '+xhr.statusText);
+                showError(ERROR_TYPES.XHR_STATUS,'Error fetching data: '+xhr.statusText);
             }
+        } else {
+            showError(ERROR_TYPES.XHR_STATE,'XHR state error');
         }
     };
     xhr.send();
@@ -45,6 +55,16 @@ form.addEventListener("submit", function(event) {
     const id = formData.get("id");
     const title = formData.get("title");
     const body = formData.get("body");
+
+    if(title.trim() === "") {
+        showError(ERROR_TYPES.INVALID_INPUT,'Title is empty');
+        return;
+    }
+
+    if(body.trim() === "") {
+        showError(ERROR_TYPES.INVALID_INPUT,'Body is empty');
+        return;
+    }
     
     if(type === "POST"){
         sendPost(title,body);
@@ -54,11 +74,39 @@ form.addEventListener("submit", function(event) {
 });
 
 //Functions
-function showError(errorMessage){
+function showError(errorType, errorMessage){
+    let border = "";
+    switch (errorType) {
+        case ERROR_TYPES.FETCH_ERROR:
+            border = "2px solid red";
+            break;
+        case ERROR_TYPES.FETCH_RESPONSE:
+            border = "2px solid orange";
+            break;
+        case ERROR_TYPES.XHR_STATE:
+            border = "2px solid purple";
+            break;
+        case ERROR_TYPES.XHR_STATUS:
+            border = "2px solid blue";
+            break;
+        case ERROR_TYPES.INVALID_INPUT:
+            border = "2px solid yellow";
+            break;
+        default:
+            console.log("Invalid error type:");
+    }
+
+    errorDiv.style.border = border;
     errorDiv.innerHTML = errorMessage;
 }
 
+function clearError(){
+    errorDiv.style.border = "";
+    errorDiv.innerHTML = "";
+}
+
 function populateDataDiv(object){
+    clearError();
     dataDiv.innerHTML = "";
     for (const key in object) {
         if (object.hasOwnProperty(key)) {
@@ -80,7 +128,7 @@ function sendPost(title,body){
     })
     .then(response => {
         if (!response.ok) {
-            showError("Network response was not ok");
+            showError(ERROR_TYPES.FETCH_RESPONSE,"Network response was not ok");
             throw new Error('Network response was not ok');
         }
         return response.json();
@@ -88,7 +136,7 @@ function sendPost(title,body){
     .then(data => {
         populateDataDiv(data);
     })
-    .catch(error => showError('Error fetching data'));
+    .catch(error => showError(ERROR_TYPES.FETCH_ERROR,'Error fetching data'));
 }
 
 function sendPut(id,title,body){
@@ -109,8 +157,10 @@ function sendPut(id,title,body){
                 const data = JSON.parse(xhr.responseText);
                 populateDataDiv(data);
             } else {
-                showError('Error fetching data: '+xhr.statusText);
+                showError(ERROR_TYPES.XHR_STATUS,'Error fetching data');
             }
+        } else {
+            showError(ERROR_TYPES.XHR_STATE,'XHR state error')
         }
     };
 
