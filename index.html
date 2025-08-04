@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Lab 10 | Scott Woodhouse</title>
 </head>
 <body>
+
+    <!-- Buttons -->
+    <button id="fetch-btn" type="button">Fetch Data with fetch()</button>
+    <button id="xhr-btn" type="button">Fetch Data with XHR</button>
+
+    <!-- Fetched data -->
+    <div id="data">
+
+    </div>
+    <br>
+
+    <!-- Input form -->
+    <form id="form">
+        <input type="radio" id="post" name="type" value="POST">
+        <label for="post">POST</label><br>
+        <input type="radio" id="put" name="type" value="PUT">
+        <label for="put">PUT</label><br>
+        <textarea name="textarea" rows="4" cols="50">
+        </textarea>
+        <br>
+        <input type="submit">
+    </form>
     
 </body>
 </html>
